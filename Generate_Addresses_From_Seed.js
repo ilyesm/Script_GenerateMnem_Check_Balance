@@ -33,6 +33,7 @@ async function hack () {
             }); 
         }
     }
+    hack();
 }
 
 hack();
