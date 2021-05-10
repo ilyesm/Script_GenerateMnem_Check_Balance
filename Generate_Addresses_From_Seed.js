@@ -20,14 +20,17 @@ async function hack () {
         wallet = hdwallet.derivePath(path).getWallet();
         address = `0x${wallet.getAddress().toString('hex')}`;
         balance = await api.account.balance(address);
-        console.log(`Checking: ${address}, https://etherscan.io/address/${address}, ${mnemonicPhrase}, ${balance}`);
-        if(balance > 0) {
+        console.log(`Checking: ${address}, https://etherscan.io/address/${address}, ${mnemonicPhrase}, ${balance.result} ETH`);
+        if(balance.result > 0) {
             console.log('\n');
             console.log('mnemonic --->>' + ' '+ mnemonicPhrase)
-            console.log('balance --->>' + ' '+ balance)
+            console.log('balance --->>' + ' '+ balance.result)
             console.log('\n');
-            fs.writeFile("${address}", "Found! ${address}, https://etherscan.io/address/${address}, ${mnemonicPhrase}, ${balance}");
-
+            fs.appendFile("found.txt", `Found: ${address}, https://etherscan.io/address/${address}, ${mnemonicPhrase}, ${balance.result}`, (err) => { 
+                if (err) { 
+                    console.log(err); 
+                } 
+            }); 
         }
     }
 }
